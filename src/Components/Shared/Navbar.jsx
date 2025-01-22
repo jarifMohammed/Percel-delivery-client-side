@@ -1,7 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { AuthContext } from '@/Providers/AuthProvider';
+import  { useState, useEffect, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-const Navbar = ({ user }) => {
+const Navbar = () => {
+    const {user,logout} = useContext(AuthContext)
+
+const handleLogOut = () => {
+    logout()
+    .then(() => {})
+    .catch(error => console.log(error))
+}
+
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
@@ -83,7 +92,7 @@ const Navbar = ({ user }) => {
                 <span className="sr-only">Open user menu</span>
                 <img
                   className="h-8 w-8 rounded-full"
-                  src={user?.profilePicture || "https://flowbite.com/docs/images/people/profile-picture-3.jpg"}
+                  src={user?.photoUrl || "https://flowbite.com/docs/images/people/profile-picture-3.jpg"}
                   alt="User profile"
                 />
               </button>
@@ -96,7 +105,7 @@ const Navbar = ({ user }) => {
                 >
                   <div className="py-1">
                     <div className="px-4 py-2">
-                      <p className="text-sm text-gray-900 dark:text-white">{user?.name}</p>
+                      <p className="text-sm text-gray-900 dark:text-white">{user?.displayName}</p>
                       <p className="text-sm text-gray-500 dark:text-gray-300 truncate">{user?.email}</p>
                     </div>
                     <a
@@ -111,12 +120,26 @@ const Navbar = ({ user }) => {
                     >
                       Settings
                     </a>
-                    <a
+                    {
+                        user ? <>
+                        
+                        <a
                       
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
-                    >
+                       >
+                      <Link onClick={handleLogOut}>Log Out</Link>
+                    </a>
+                        </> : 
+                        
+                        <>
+                        <a
+                      
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                       >
                       <Link to='login'>Login</Link>
                     </a>
+                        </>
+                    }
                   </div>
                 </div>
               )}

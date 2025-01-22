@@ -1,8 +1,15 @@
 import { useForm } from "react-hook-form";
 import GoogleIcon from "@mui/icons-material/Google";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "@/Providers/AuthProvider";
 
 const Login = () => {
+    const location = useLocation()
+    const navigate = useNavigate()
+    const {signIn} =useContext(AuthContext) 
+
+    const from = location.state?.from?.pathname || '/'
   const {
     register,
     handleSubmit,
@@ -10,12 +17,17 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = (data) => {
-    console.log(data); // Handle login API here
-  };
+    const { email, password } = data; // Extract email and password from form data
+    signIn(email, password)
+        .then(response => console.log(response))
+        .catch(error => console.error(error));
+        navigate(from, {replace:true})
+};
+
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100 px-4">
-      <div className="bg-white shadow-lg rounded-lg p-6 sm:p-8 flex flex-col-reverse lg:flex-row w-full max-w-4xl">
+    <div className="flex min-h-screen items-center  justify-center bg-slate-50 px-4">
+      <div className="bg-white  shadow-lg rounded-3xl p-6 sm:p-8 flex flex-col-reverse lg:flex-row w-full max-w-4xl">
         {/* Left Section: Form */}
         <div className="w-full lg:w-1/2">
           <h1 className="text-2xl font-bold text-gray-800">Welcome back</h1>
