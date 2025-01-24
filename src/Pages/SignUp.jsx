@@ -9,8 +9,10 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "@/Providers/AuthProvider";
+import axiosPublic from "@/Hooks/axiosPublic";
 
 export default function SignUp() {
+    const axios = axiosPublic()
     const navigate =useNavigate()
     const {createuser, updateUserProfile} = useContext(AuthContext)
   const {
@@ -27,7 +29,19 @@ export default function SignUp() {
     .then(res => {
         const loggeduser = res.user
         console.log(loggeduser);
-        updateUserProfile(fullName)
+        updateUserProfile(fullName , data.photoURL)
+        .then(() => {
+            // create user info
+            const userInfo = {
+                name: fullName,
+                email:data.email,
+                photo:data.photoURL,
+                role:data.role,
+                phone:data.phone
+              }
+              axios.post('/users',userInfo)
+
+        })
         navigate('/')
     })
 
@@ -141,7 +155,7 @@ export default function SignUp() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="user">User</SelectItem>
-                  <SelectItem value="delivery-man">Delivery Man</SelectItem>
+                  <SelectItem value="deliveryman">Delivery Man</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -223,23 +237,27 @@ export default function SignUp() {
 
             {/* Profile Picture Upload */}
             <div className="mt-6">
-              <label className="text-gray-800 text-xs block mb-2">
-                Profile Picture
-              </label>
-              <input
-                type="file"
-                {...register("avatar", {
-                  required: "Profile picture is required",
-                })}
-                className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none"
-                accept="image/*"
-              />
-              {errors.avatar && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.avatar.message}
-                </p>
-              )}
-            </div>
+  <label className="text-gray-800 text-xs block mb-2">
+    Profile Photo URL
+  </label>
+  <input
+    type="text"
+    {...register("photoURL", {
+      required: "Profile photo URL is required",
+      
+    })}
+    className="w-full bg-transparent text-sm border-b border-gray-300 focus:border-blue-500 pl-2 pr-8 py-3 outline-none"
+    placeholder="Enter image URL (e.g., https://example.com/photo.jpg)"
+  />
+  {errors.photoURL && (
+    <p className="text-red-500 text-xs mt-1">
+      {errors.photoURL.message}
+    </p>
+  )}
+  <div className="mt-1 text-sm text-gray-500">
+    Enter the URL of your profile picture (supports JPG, PNG, GIF, SVG, WEBP)
+  </div>
+</div>
 
             {/* Terms and Conditions */}
             <div className="flex items-center mt-6">

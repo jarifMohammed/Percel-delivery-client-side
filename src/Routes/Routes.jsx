@@ -8,6 +8,12 @@ import Home from "../Pages/Home";
 import Login from "../Pages/Login";
 
 import SignUp from "@/Pages/SignUp";
+import Dashboard from "@/LayOut/Dashboard";
+import AllUsers from "@/Pages/Admin/AllUsers";
+import AllParcels from "@/Pages/Admin/AllParcels";
+import AllDeliveryman from "@/Pages/Admin/AllDeliveryman";
+
+
   export const router = createBrowserRouter([
     {
       path: "/",
@@ -26,5 +32,27 @@ import SignUp from "@/Pages/SignUp";
     {
         path:'signup',
         element:<SignUp></SignUp>
-    }
+    },
+    {
+      path: "/dashboard",
+      element: <Dashboard></Dashboard>,
+      children:[
+        {
+           path:'/dashboard/all-users',
+           element:<AllUsers></AllUsers>
+        },
+        {
+          path:'/dashboard/all-parcels',
+          element:<AllParcels></AllParcels>
+       },
+       {
+        path:'/dashboard/all-deliveryman',
+        element:<AllDeliveryman></AllDeliveryman>
+     }
+      ]
+    },
+
+    
+
+
   ]);
