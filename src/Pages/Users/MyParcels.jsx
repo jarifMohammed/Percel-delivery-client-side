@@ -76,12 +76,13 @@ const MyParcels = () => {
                                    <Link to={`/dashboard/update/${parcel._id}`}>
                                    <button
                                         className="bg-slate-300  px-3 py-1 rounded hover:bg-blue-100"
-                                        
+                                        disabled={parcel.status !== 'pending'}
                                     >
                                         Update
                                     </button>
                                    </Link>
                                     <button
+                                    disabled={parcel.status !== 'pending'}
                                         className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
                                         onClick={() => console.log('Cancel', parcel._id)}
                                     >
