@@ -1,91 +1,85 @@
-
 import axiosPublic from "@/Hooks/axiosPublic";
+import { useState } from "react";
 
-import { AuthContext } from "@/Providers/AuthProvider";
 
-import { useQuery } from "@tanstack/react-query";
-import { useContext, useState } from "react";
+
 import { useForm } from "react-hook-form";
+import { useLoaderData } from "react-router-dom";
 
+const UpdateParcel = () => {
+  const {_id,senderName,senderEmail,senderPhone,parcelType,parcelWeight,receiverName,receiverPhone,deliveryAddress,longitude,latitude,promisedDate} = useLoaderData()
+  console.log(promisedDate);
+   
+    const axios = axiosPublic();
+    const [deliveryFee, setDeliveryFee] = useState(0);
 
-
-const BookParcels = () => {
+    // Fetch user data
     
-    const {user} = useContext(AuthContext)
-    const axios = axiosPublic()
-    const {data: users = [] , refetch} =useQuery({
-        queryKey:['user', user?.email],
-        queryFn:async()=> {
-            const res = await axios.get(`/users/${user?.email}`)
-            console.log(res.data);
-            return res.data
+
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm({
+        defaultValues: {
+            name: senderName || '',
+            email:senderEmail || '',
+            phone: senderPhone || '',
+            parcelType: parcelType || '',
+            weight: parcelWeight || '',
+            receiverName: receiverName || '',
+            receiverPhone: receiverPhone || '',
+            deliveryAddress: deliveryAddress || '',
+            latitude: latitude || '',
+            longitude: longitude || '',
+            requestedDeliveryDate: promisedDate || '',
             
-        },
-        enabled: !!user?.email,
-        staleTime: 0, // 👈 Disable caching
-        refetchOnMount: 'always', // 👈 Always refetch when component mounts
-        retry: 1
-       
+        }
+    });
 
-    })
-    refetch()
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm({
-    defaultValues:{
-        name:users?.name || '',
-        email:users?.email || '',
-        phone:users?.phone || ''
-    }
-  });
-  const [deliveryFee, setDeliveryFee] = useState(0);
+    // Calculate delivery fee based on weight
+    const calculateDeliveryFee = (weight) => {
+        if (weight <= 1) return 50;
+        if (weight <= 2) return 150;
+        return 200;
+    };
 
-  // Calculate delivery fee based on weight
-  const calculateDeliveryFee = (weight) => {
-    if (weight <= 1) return 50;
-    if (weight <= 2) return 150;
-    return 200; // For weight greater than 2kg
-  };
+    const onSubmit =async (data) => {
+        const parcelInfo = {
+            senderName: data.name,
+            senderEmail: data.email,
+            senderPhone: data.phone,
+            receiverName: data.receiverName,
+            receiverPhone: data.receiverPhone,
+            deliveryFee: data.deliveryFee,
+            deliveryAddress: data.deliveryAddress,
+            parcelWeight: data.weight,
+            promisedDate: data.requestedDeliveryDate,
+            parcelType: data.parcelType,
+            latitude: data.latitude,
+            longitude: data.longitude,
+            
+            orderedDate: new Date().toISOString()
+        };
+        // Change to PUT/PATCH request for update
+      const res =  axios.patch(`/parcels/${_id}`, parcelInfo)
+      .then(() => alert("Parcel updated successfully!"))
+        console.log(res.data);
+            
+            
+    };
 
+    const handleWeightChange = (e) => {
+        const weight = e.target.value;
+        const fee = calculateDeliveryFee(weight);
+        setDeliveryFee(fee);
+        setValue("deliveryFee", fee);
+    };
 
-  const onSubmit = (data) => {
-    const parcelInfo={
-        senderName:data.name,
-        senderEmail:data.email,
-        senderPhone:data.phone,
-        receiverName:data.receiverName,
-        receiverPhone:data.receiverPhone,
-        deliveryFee:data.deliveryFee,
-        deliveryAddress:data.deliveryAddress,
-        parcelWeight:data.weight,
-        promisedDate:data.requestedDeliveryDate,
-        parcelType:data.parcelType,
-        latitude:data.latitude,
-        longitude:data.longitude,
-        status:"pending",
-        orderedDate:new Date().toISOString()
-}
-axios.post('/parcels',parcelInfo)
-    
-
-    alert("Parcel booked successfully!");
-    console.log(data);
-  };
-
-  // Auto-calculate fee when weight is updated
-  const handleWeightChange = (e) => {
-    const weight = e.target.value;
-    const fee = calculateDeliveryFee(weight);
-    setDeliveryFee(fee);
-    setValue("deliveryFee", fee);
-  };
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8">
-      <div className="max-w-4xl mx-auto px-4">
-        <div className="bg-white rounded-2xl shadow-lg p-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-            📦 Book Your Parcel
-          </h1>
-          
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 py-8">
+            <div className="max-w-4xl mx-auto px-4">
+                <div className="bg-white rounded-2xl shadow-lg p-8">
+                    <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+                        ✏️ Update Your Parcel
+                    </h1>
+                    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
             {/* Sender Information Section */}
             <div className="space-y-6">
               <h2 className="text-xl font-semibold text-gray-700 border-b-2 border-blue-200 pb-2">
@@ -149,6 +143,7 @@ axios.post('/parcels',parcelInfo)
                     Parcel Type
                   </label>
                   <select
+                  defaultValue={parcelType}
                     id="parcelType"
                     {...register("parcelType", { required: "Parcel type is required" })}
                     className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all bg-white"
@@ -314,16 +309,15 @@ axios.post('/parcels',parcelInfo)
                 type="submit"
                 className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-3 px-6 rounded-lg transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-lg"
               >
-                Book Parcel Now
+                Update Parcel 
               </button>
             </div>
           </form>
-        </div>
-      </div>
-    </div>
-  );
 
-  
+                </div>
+            </div>
+        </div>
+    );
 };
 
-export default BookParcels;
+export default UpdateParcel;
