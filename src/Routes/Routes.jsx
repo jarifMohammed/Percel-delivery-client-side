@@ -12,6 +12,11 @@ import Dashboard from "@/LayOut/Dashboard";
 import AllUsers from "@/Pages/Admin/AllUsers";
 import AllParcels from "@/Pages/Admin/AllParcels";
 import AllDeliveryman from "@/Pages/Admin/AllDeliveryman";
+import PrivateRoute from "./PrivateRoute";
+import BookParcles from "@/Pages/Users/BookParcels";
+import BookParcels from "@/Pages/Users/BookParcels";
+import MyParcels from "@/Pages/Users/MyParcels";
+import Profile from "@/Pages/Users/Profile";
 
 
   export const router = createBrowserRouter([
@@ -35,7 +40,7 @@ import AllDeliveryman from "@/Pages/Admin/AllDeliveryman";
     },
     {
       path: "/dashboard",
-      element: <Dashboard></Dashboard>,
+      element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
       children:[
         {
            path:'/dashboard/all-users',
@@ -48,6 +53,19 @@ import AllDeliveryman from "@/Pages/Admin/AllDeliveryman";
        {
         path:'/dashboard/all-deliveryman',
         element:<AllDeliveryman></AllDeliveryman>
+     },
+     {
+      path:'/dashboard/book-parcel',
+      element:<BookParcels></BookParcels>
+
+     },
+     {
+      path:'/dashboard/my-parcels',
+      element:<MyParcels></MyParcels>
+     },
+     {
+      path:'/dashboard/profile',
+      element:<Profile></Profile>
      }
       ]
     },

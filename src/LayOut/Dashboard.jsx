@@ -2,13 +2,15 @@
 import { Outlet, useLocation, Link } from 'react-router-dom';
 import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "../components/ui/sidebar";
 import { PanelLeft, Box, Truck, Package, Users, Star, User } from 'lucide-react';
+import useAdmin from '@/Hooks/useAdmin';
 
 const Dashboard = () => {
   const location = useLocation();
   
   // Temporary role variable - replace with your auth context
-  const role = 'admin'; // Can be 'admin', 'user', or 'delivery'
-
+   // Can be 'admin', 'user', or 'delivery'
+const [role] =useAdmin()
+// console.log(role);
   return (
     <SidebarProvider>
       <div className="flex min-h-screen">
@@ -54,11 +56,22 @@ const Dashboard = () => {
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
+                  <SidebarMenuItem>
+                <SidebarMenuButton
+                  asChild
+                  isActive={location.pathname === '/dashboard/profile'}
+                >
+                  <Link to="/dashboard/profile">
+                    <User className="h-4 w-4" />
+                    <span>My Profile</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
                 </>
               )}
 
               {/* Delivery-specific Menu Items */}
-              {role === 'delivery' && (
+              {role === 'deliveryman' && (
                 <>
                   <SidebarMenuItem>
                     <SidebarMenuButton
@@ -125,17 +138,7 @@ const Dashboard = () => {
               )}
 
               {/* Common Profile Section */}
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={location.pathname === '/dashboard/profile'}
-                >
-                  <Link to="/dashboard/profile">
-                    <User className="h-4 w-4" />
-                    <span>My Profile</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+              
             </SidebarMenu>
           </SidebarContent>
         </Sidebar>
