@@ -19,6 +19,10 @@ import MyParcels from "@/Pages/Users/MyParcels";
 import Profile from "@/Pages/Users/Profile";
 import UpdateParcel from "@/Pages/Users/UpdateParcel";
 import AdminRoutes from "./AdminRoutes";
+import MyDeliveries from "@/Pages/DeliveryBoy/MyDeliveries";
+import MyReviews from "@/Pages/DeliveryBoy/MyReviews";
+import UserRoutes from "./UserRoutes";
+import DeliveryManRoute from "./DeliveryManRoute";
 
 
   export const router = createBrowserRouter([
@@ -58,23 +62,31 @@ import AdminRoutes from "./AdminRoutes";
      },
      {
       path:'/dashboard/book-parcel',
-      element:<BookParcels></BookParcels>
+      element:<UserRoutes><BookParcels></BookParcels></UserRoutes>
 
      },
      {
       path:'/dashboard/my-parcels',
-      element:<MyParcels></MyParcels>
+      element:<UserRoutes><MyParcels></MyParcels></UserRoutes>
      },
      {
       path:'/dashboard/profile',
-      element:<Profile></Profile>
+      element:<UserRoutes><Profile></Profile></UserRoutes>
      },
      {
       path:'/dashboard/update/:id',
-      element:<UpdateParcel></UpdateParcel>,
+      element:<UserRoutes><UpdateParcel></UpdateParcel></UserRoutes>,
       loader:({params}) => fetch(`http://localhost:3000/parcels/update/${params.id}`)
 
       
+     },
+     {
+      path:'/dashboard/deliveries',
+      element:<DeliveryManRoute><MyDeliveries></MyDeliveries></DeliveryManRoute>
+     },
+     {
+      path:'/dashboard/reviews',
+      element:<DeliveryManRoute><MyReviews></MyReviews></DeliveryManRoute>
      }
       ]
     },

@@ -1,11 +1,13 @@
 import axiosPublic from "@/Hooks/axiosPublic";
 import { AuthContext } from "@/Providers/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import ReviewModal from "./ReviewModal";
 
 
 const MyParcels = () => {
+    const [selectedParcel, setSelectedParcel] = useState(null);
     const axios = axiosPublic();
     const { user } = useContext(AuthContext);
     
@@ -96,10 +98,10 @@ const MyParcels = () => {
                                         >
                                             Cancel
                                         </button>
-                                        {parcel.status === 'delivered' && (
+                                        {parcel.status === 'Delivered' && (
                                             <button
                                                 className="px-3 py-1.5 rounded-md text-sm bg-purple-100 text-purple-800 hover:bg-purple-200"
-                                                onClick={() => console.log('Review', parcel._id)}
+                                                onClick={() => setSelectedParcel(parcel)}
                                             >
                                                 Review
                                             </button>
@@ -124,6 +126,14 @@ const MyParcels = () => {
                 <div className="text-center mt-8 p-6 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
                     <p className="text-gray-500 text-lg">No parcels booked yet</p>
                 </div>
+            )}
+             {/* Review Modal */}
+             {selectedParcel && (
+                <ReviewModal
+                    parcel={selectedParcel}
+                    closeModal={() => setSelectedParcel(null)} // Close modal
+                    refetch={refetch} // Refetch data after submitting review
+                />
             )}
         </div>
     );
