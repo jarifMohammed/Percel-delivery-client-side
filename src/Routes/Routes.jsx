@@ -13,11 +13,12 @@ import AllUsers from "@/Pages/Admin/AllUsers";
 import AllParcels from "@/Pages/Admin/AllParcels";
 import AllDeliveryman from "@/Pages/Admin/AllDeliveryman";
 import PrivateRoute from "./PrivateRoute";
-import BookParcles from "@/Pages/Users/BookParcels";
+// import BookParcles from "@/Pages/Users/BookParcels";
 import BookParcels from "@/Pages/Users/BookParcels";
 import MyParcels from "@/Pages/Users/MyParcels";
 import Profile from "@/Pages/Users/Profile";
 import UpdateParcel from "@/Pages/Users/UpdateParcel";
+import AdminRoutes from "./AdminRoutes";
 
 
   export const router = createBrowserRouter([
@@ -45,15 +46,15 @@ import UpdateParcel from "@/Pages/Users/UpdateParcel";
       children:[
         {
            path:'/dashboard/all-users',
-           element:<AllUsers></AllUsers>
+           element:<AdminRoutes><AllUsers></AllUsers></AdminRoutes>
         },
         {
           path:'/dashboard/all-parcels',
-          element:<AllParcels></AllParcels>
+          element:<AdminRoutes><AllParcels></AllParcels></AdminRoutes>
        },
        {
         path:'/dashboard/all-deliveryman',
-        element:<AllDeliveryman></AllDeliveryman>
+        element:<AdminRoutes><AllDeliveryman></AllDeliveryman></AdminRoutes>
      },
      {
       path:'/dashboard/book-parcel',

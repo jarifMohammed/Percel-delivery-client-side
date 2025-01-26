@@ -4,19 +4,20 @@ import { AuthContext } from "@/Providers/AuthProvider";
 import { useContext } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 
+const AdminRoutes = ({ children }) => {
+  const { user, loading } = useContext(AuthContext); // Properly access the context
+  const [role, isLoading] = useAdmin();
+  const location = useLocation();
 
-const AdminRoutes = (children) => {
-    const [user, loading] =useContext(AuthContext)
-    const [role,isLoading] = useAdmin()
-    const location = useLocation()
-    if(loading || isLoading){
-        return  <Spinner></Spinner>
-    }
-    if (user && role === "admin") {
-        return children
-    }
+  if (loading || isLoading) {
+    return <Spinner />;
+  }
 
-    return <Navigate to='/login' state={{from: location}} replace></Navigate>
+  if (user && role === "admin") {
+    return children;
+  }
+
+  return <Navigate to="/login" state={{ from: location }} replace />;
 };
 
 export default AdminRoutes;

@@ -29,83 +29,91 @@ const MyParcels = () => {
 
     return (
         <div className="container mx-auto p-6">
-            <h2 className="text-2xl font-bold mb-6">My Booked Parcels</h2>
+            <h2 className="text-2xl font-bold mb-6 text-gray-800">My Booked Parcels</h2>
             
-            <div className="overflow-x-auto">
-                <table className="table-auto w-full border-collapse border border-gray-200">
+            <div className="overflow-x-auto rounded-lg shadow-lg border border-gray-100">
+                <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
-                            <th className="px-4 py-2 border">Parcel Type</th>
-                          
-                            <th className="px-4 py-2 border">Requested Delivery Date</th>
-                            <th className="px-4 py-2 border">Approximate Delivery Date</th>
-                            <th className="px-4 py-2 border">Deliveryman ID</th>
-                            <th className="px-4 py-2 border">Booking Date</th>
-                            <th className="px-4 py-2 border">Status</th>
-                            <th className="px-4 py-2 border">Actions</th>
+                            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Parcel Type</th>
+                            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Requested Delivery</th>
+                            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Approximate Delivery</th>
+                            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Deliveryman</th>
+                            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Booking Date</th>
+                            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Status</th>
+                            <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">Actions</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="bg-white divide-y divide-gray-200">
                         {parcels.map(parcel => (
-                            <tr key={parcel._id} className="hover:bg-gray-50">
-                                <td className="px-4 py-2 border">{parcel.parcelType}</td>
-                                
-                                <td className="px-4 py-2 border">
+                            <tr key={parcel._id} className="hover:bg-gray-50 transition-colors">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+                                    {parcel.parcelType}
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                                     {formatDate(parcel.promisedDate)}
                                 </td>
-                                <td className="px-4 py-2 border">
-                                    {parcel.approximateDeliveryDate || 'N/A'}
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                    {parcel.approximateDate ? formatDate(parcel.approximateDate) : 'N/A'}
                                 </td>
-                                <td className="px-4 py-2 border">
-                                    {parcel.deliverymanId || 'Not assigned'}
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                                    {parcel.deliveryManId || 'Not assigned'}
                                 </td>
-                                <td className="px-4 py-2 border">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                                     {formatDate(parcel.orderedDate)}
                                 </td>
-                                <td className="px-4 py-2 border">
-                                    <span className={`px-2 py-1 rounded-3xl ${
-                                        parcel.status === 'pending' ? 'bg-yellow-200 text-yellow-800' :
-                                        parcel.status === 'delivered' ? 'bg-green-200 text-green-800' :
-                                        'bg-gray-200 text-gray-800'
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide ${
+                                        parcel.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                                        parcel.status === 'delivered' ? 'bg-green-100 text-green-800' :
+                                        'bg-gray-100 text-gray-800'
                                     }`}>
                                         {parcel.status}
                                     </span>
                                 </td>
-                               <div className="">
-                               <td className="px-4 py-2 border flex space-x-2">
-                                   <Link to={`/dashboard/update/${parcel._id}`}>
-                                   <button
-                                        className="bg-slate-300  px-3 py-1 rounded hover:bg-blue-100"
-                                        disabled={parcel.status !== 'pending'}
-                                    >
-                                        Update
-                                    </button>
-                                   </Link>
-                                    <button
-                                    disabled={parcel.status !== 'pending'}
-                                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                                        onClick={() => console.log('Cancel', parcel._id)}
-                                    >
-                                        Cancel
-                                    </button>
-                                    {parcel.status === 'delivered' && (
+                                <td className="px-6 py-4 whitespace-nowrap space-x-2">
+                                    <div className="flex items-center gap-2">
+                                        <Link to={`/dashboard/update/${parcel._id}`}>
+                                            <button
+                                                className={`px-3 py-1.5 rounded-md text-sm ${
+                                                    parcel.status !== 'pending' 
+                                                    ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                                                    : 'bg-blue-100 text-blue-800 hover:bg-blue-200'
+                                                }`}
+                                                disabled={parcel.status !== 'pending'}
+                                            >
+                                                Update
+                                            </button>
+                                        </Link>
                                         <button
-                                            className="bg-purple-500 text-white px-3 py-1 rounded hover:bg-purple-600"
-                                            onClick={() => console.log('Review', parcel._id)}
+                                            className={`px-3 py-1.5 rounded-md text-sm ${
+                                                parcel.status !== 'pending' 
+                                                ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                                                : 'bg-red-100 text-red-800 hover:bg-red-200'
+                                            }`}
+                                            disabled={parcel.status !== 'pending'}
+                                            onClick={() => console.log('Cancel', parcel._id)}
                                         >
-                                            Review
+                                            Cancel
                                         </button>
-                                    )}
-                                    {parcel.status === 'pending' && (
-                                        <button
-                                            className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-                                            onClick={() => console.log('Pay', parcel._id)}
-                                        >
-                                            Pay
-                                        </button>
-                                    )}
+                                        {parcel.status === 'delivered' && (
+                                            <button
+                                                className="px-3 py-1.5 rounded-md text-sm bg-purple-100 text-purple-800 hover:bg-purple-200"
+                                                onClick={() => console.log('Review', parcel._id)}
+                                            >
+                                                Review
+                                            </button>
+                                        )}
+                                        {parcel.status === 'pending' && (
+                                            <button
+                                                className="px-3 py-1.5 rounded-md text-sm bg-green-100 text-green-800 hover:bg-green-200"
+                                                onClick={() => console.log('Pay', parcel._id)}
+                                            >
+                                                Pay
+                                            </button>
+                                        )}
+                                    </div>
                                 </td>
-                               </div>
                             </tr>
                         ))}
                     </tbody>
@@ -113,12 +121,11 @@ const MyParcels = () => {
             </div>
 
             {parcels.length === 0 && (
-                <div className="text-center mt-4 text-gray-500">
-                    No parcels booked yet
+                <div className="text-center mt-8 p-6 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+                    <p className="text-gray-500 text-lg">No parcels booked yet</p>
                 </div>
             )}
         </div>
     );
 };
-
 export default MyParcels;
