@@ -1,10 +1,12 @@
 import axiosPublic from "@/Hooks/axiosPublic";
 import { AuthContext } from "@/Providers/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import LocationModal from "./LocationModal";
 
 const MyDeliveries = () => {
+    const [modalData, setModalData] = useState(null);
     const { user } = useContext(AuthContext);
     const axios = axiosPublic();
 
@@ -75,6 +77,16 @@ const MyDeliveries = () => {
         }
     };
 
+    // Modal open handler
+  const openModal = (latitude, longitude) => {
+    setModalData({ latitude, longitude });
+  };
+
+  // Modal close handler
+  const closeModal = () => {
+    setModalData(null);
+  };
+
     return (
         <div className="container mx-auto p-6">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">My Assigned Deliveries</h2>
@@ -128,21 +140,18 @@ const MyDeliveries = () => {
                                             Cancel
                                         </button>
                                         <button
+                                        disabled={parcel.status === "Cancelled"}
                                             className="px-3 py-1.5 bg-green-100 text-green-800 rounded-md hover:bg-green-200 text-sm"
                                             onClick={() => handleDelivered(parcel._id)}
                                         >
                                             Delivered
                                         </button>
-                                        <Link
-                                            to={`/parcel-location/${parcel._id}`}
-                                            state={{ 
-                                                latitude: parcel.latitude, 
-                                                longitude: parcel.longitude 
-                                            }}
+                                        <button
+                                              onClick={() => openModal(parcel.latitude, parcel.longitude)}
                                             className="px-3 py-1.5 bg-blue-100 text-blue-800 rounded-md hover:bg-blue-200 text-sm"
                                         >
                                             View Location
-                                        </Link>
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
@@ -154,6 +163,15 @@ const MyDeliveries = () => {
                     <p className="text-gray-500 text-lg">No deliveries assigned to you yet</p>
                 </div>
             )}
+            {modalData && (
+        <LocationModal
+        
+          isOpen={!!modalData}
+          onClose={closeModal}
+          latitude={modalData.latitude}
+          longitude={modalData.longitude}
+        />
+      )}
         </div>
     );
 };

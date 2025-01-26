@@ -9,7 +9,7 @@ const AllParcels = () => {
   const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
   const axios = axiosPublic();
 
-  const { data: parcels = [] } = useQuery({
+  const { data: parcels = [],refetch} = useQuery({
     queryKey: ["parcels"],
     queryFn: async () => {
       const res = await axios.get("/parcels");
@@ -107,7 +107,7 @@ const AllParcels = () => {
 
       {/* Modal Component */}
       {isModalOpen && (
-        <Modal parcel={selectedParcel} closeModal={closeModal} />
+        <Modal refetch={refetch} parcel={selectedParcel} closeModal={closeModal} />
       )}
     </div>
   );

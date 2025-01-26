@@ -5,14 +5,14 @@ import { useContext, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const Modal = ({ parcel, closeModal }) => {
+const Modal = ({ parcel, closeModal,refetch}) => {
   const axios = axiosSecure();
   const { user: currentUser } = useContext(AuthContext);
   const [selectedDeliveryMan, setSelectedDeliveryMan] = useState(null);
   const [deliveryDate, setDeliveryDate] = useState(new Date());
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { data: users = [], refetch } = useQuery({
+  const { data: users = []} = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
       const res = await axios.get("/users");
@@ -42,8 +42,11 @@ const Modal = ({ parcel, closeModal }) => {
 
     try {
       await axios.patch(`/parcels/assign/${parcel._id}`,updateIdStatus);
+      refetch()
       alert("Delivery man assigned successfully!");
+      
       closeModal();
+      
     } catch (error) {
       console.error(error);
       alert("Failed to assign delivery man.");
