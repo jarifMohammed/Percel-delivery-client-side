@@ -23,6 +23,8 @@ import MyDeliveries from "@/Pages/DeliveryBoy/MyDeliveries";
 import MyReviews from "@/Pages/DeliveryBoy/MyReviews";
 import UserRoutes from "./UserRoutes";
 import DeliveryManRoute from "./DeliveryManRoute";
+import HowWeWork from "@/Pages/HowWeWork";
+import About from "@/Pages/About";
 
 
   export const router = createBrowserRouter([
@@ -33,7 +35,15 @@ import DeliveryManRoute from "./DeliveryManRoute";
         {
             path:'/',
             element:<Home></Home>
-        }
+        },
+        {
+          path:'/work',
+          element:<HowWeWork></HowWeWork>
+      },
+      {
+        path:'/about',
+        element:<About></About>
+    }
       ]
     },
     {

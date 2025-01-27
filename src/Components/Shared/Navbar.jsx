@@ -64,7 +64,7 @@ const Navbar = () => {
                     About
                     </Link>
                     <Link
-                    to="/services"
+                    to="/work"
                     className="text-white  hover:text-red-300 dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                     >
                     How We Work

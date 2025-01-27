@@ -1,6 +1,9 @@
-import Banner from "@/Components/Shared/Banner";
 
-import OurFeatures from "@/Components/Shared/OurFeatures";
+import { FeaturesSection } from "@/Components/Shared/FeaturesSection";
+import Stats from "@/Components/Shared/Stats";
+
+
+
 import Hero from "@/ui/Hero";
 
 
@@ -12,7 +15,10 @@ const Home = () => {
     <div className="p-4">
      
     <Hero></Hero>
-  <OurFeatures></OurFeatures>
+   <div className="  mx-auto  text-center">
+   <Stats></Stats>
+   </div>
+  <FeaturesSection></FeaturesSection>
   
     </div>
   );
