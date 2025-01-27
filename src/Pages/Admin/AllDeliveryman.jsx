@@ -23,7 +23,7 @@ const AllDeliveryman = () => {
     const getDeliveredCount = (userId) => {
         return parcels.filter(parcel => 
             parcel.deliveryManId === userId && 
-            parcel.status === 'delivered'
+            parcel.status === 'Delivered'
         ).length;
     };
 
@@ -61,13 +61,28 @@ const AllDeliveryman = () => {
                                     {user.phone || 'N/A'}
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="flex items-center">
-                                        <span className="text-lg font-bold text-blue-600">
-                                            {getDeliveredCount(user._id)}
-                                        </span>
-                                        <span className="ml-2 text-sm text-gray-500">parcels</span>
-                                    </div>
-                                </td>
+    <div className="flex items-center">
+        <span className="text-lg font-bold text-green-600">
+            {getDeliveredCount(user._id)}
+        </span>
+        <span className="ml-2 text-sm text-gray-500">delivered</span>
+    </div>
+</td>
+<td className="px-6 py-4 whitespace-nowrap">
+    <div className="flex items-center">
+        <span
+            className={`px-3 py-1 rounded-full text-sm font-medium ${
+                getDeliveredCount(user._id) >= 10
+                    ? 'bg-green-100 text-green-800'
+                    : 'bg-red-100 text-red-800'
+            }`}
+        >
+            {getDeliveredCount(user._id) >= 10
+                ? 'High Performer'
+                : 'Needs Improvement'}
+        </span>
+    </div>
+</td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     
                                </td>

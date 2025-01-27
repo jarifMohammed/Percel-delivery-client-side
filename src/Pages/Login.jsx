@@ -3,11 +3,14 @@ import GoogleIcon from "@mui/icons-material/Google";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "@/Providers/AuthProvider";
+import axiosPublic from "@/Hooks/axiosPublic";
 
 const Login = () => {
+  const {googleSignIn} = useContext(AuthContext)
     const location = useLocation()
     const navigate = useNavigate()
     const {signIn} =useContext(AuthContext) 
+    const axios = axiosPublic()
 
     const from = location.state?.from?.pathname || '/'
   const {
@@ -19,10 +22,38 @@ const Login = () => {
   const onSubmit = (data) => {
     const { email, password } = data; // Extract email and password from form data
     signIn(email, password)
-        .then(response => console.log(response))
-        .catch(error => console.error(error));
-        navigate(from, {replace:true})
-};
+      .then((response) => {
+        console.log(response);
+        navigate(from, { replace: true }); // Redirect after successful login
+      })
+      .catch((error) => {
+        console.error(error);
+        if (error.code === "auth/user-not-found") {
+          // If email is not found in Firebase, show an alert and redirect to the signup page
+          alert("This email is not registered. Please sign up.");
+          navigate("/signup"); // Redirect to signup page
+        } else {
+          // Handle other errors (wrong password, etc.)
+          alert("Login failed. Please check your credentials.");
+        }
+      });
+  };
+  const handlegoogleSignIn = () => {
+    googleSignIn()
+    .then(result => {
+      // console.log(result.user);
+      const userInfo ={
+        email:result.user?.email,
+        name:result.user?.displayName,
+        role:"user",
+        photo:result.user?.photoURL
+
+      }
+      axios.post('/users',userInfo)
+      navigate('/')
+    })
+
+  }
 
 
   return (
@@ -120,7 +151,7 @@ const Login = () => {
           </div>
 
           {/* Social Login */}
-          <button className="w-full mb-2 flex items-center justify-center space-x-2 bg-gray-100 py-2 px-4 rounded-md shadow hover:bg-gray-200">
+          <button onClick={handlegoogleSignIn} className="w-full mb-2 flex items-center justify-center space-x-2 bg-gray-100 py-2 px-4 rounded-md shadow hover:bg-gray-200">
           <GoogleIcon className="text-blue-600" />
             <span>Sign in with Google</span>
           </button>

@@ -39,15 +39,16 @@ const Navbar = () => {
         >
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
+               
             {/* Left side - Logo and main nav */}
-            <div className="flex items-center">
-                <div className="flex-shrink-0">
-                <img
-                    className="h-8 w-8"
-                    src="https://flowbite.com/docs/images/logo.svg"
-                    alt="Logo"
-                />
+            <div className="flex gap-4 items-center">
+               <div className='flex gap-4 justify-start '>
+               <div className="flex-shrink-0 ">
+                <iframe className='w-16 h-16' src="https://lottie.host/embed/8cb93b74-3c4b-44bb-a584-8284c47b78f0/RzKrFvKy4K.lottie"></iframe>
                 </div>
+               <p className='text-2xl mt-4 font-bold text-white'>Quick Drop</p>
+                
+               </div>
                 <div className="hidden md:block ml-10">
                 <div className="flex space-x-4">
                     <Link

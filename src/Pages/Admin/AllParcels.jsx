@@ -95,11 +95,16 @@ const AllParcels = () => {
               </div>
 
               <button
-                onClick={() => openModal(parcel)}
-                className="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
-              >
-                Manage
-              </button>
+  disabled={parcel.status === "Delivered" || parcel.status === "Cancelled" || parcel.status === "On The Way"}
+  onClick={() => openModal(parcel)}
+  className={`mt-4 w-full py-2 px-4 rounded-md transition-colors ${
+    parcel.status === "Delivered" || parcel.status === "Cancelled" || parcel.status === "On the Way"
+      ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+      : "bg-blue-600 text-white hover:bg-blue-700"
+  }`}
+>
+  Manage
+</button>
             </div>
           </div>
         ))}

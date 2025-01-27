@@ -1,8 +1,9 @@
 // src/layouts/DashboardLayout.jsx
 import { Outlet, useLocation, Link } from 'react-router-dom';
-import { SidebarProvider, Sidebar, SidebarTrigger, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "../components/ui/sidebar";
-import { PanelLeft, Box, Truck, Package, Users, Star, User } from 'lucide-react';
+import { SidebarProvider,  Sidebar, SidebarTrigger, SidebarContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "../components/ui/sidebar";
+import { PanelLeft, Box, Truck, Package, Users, Star, User, Home } from 'lucide-react';
 import useAdmin from '@/Hooks/useAdmin';
+import Navbar from '@/Components/Shared/Navbar';
 
 const Dashboard = () => {
   const location = useLocation();
@@ -12,8 +13,11 @@ const Dashboard = () => {
 const [role] =useAdmin()
 // console.log(role);
   return (
+    
     <SidebarProvider>
-      <div className="flex min-h-screen">
+     
+      <div className="flex  min-h-screen">
+      
         {/* Desktop Sidebar */}
         <Sidebar variant="sidebar" className="border-r">
           <SidebarContent>
@@ -134,10 +138,22 @@ const [role] =useAdmin()
                       </Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
+                  <SidebarMenuItem>
+               
+              </SidebarMenuItem>
                 </>
               )}
+               <SidebarMenuButton
+                  asChild
+                  isActive={location.pathname === "/"}
+                >
+                  <Link to="/">
+                    <Home className="h-4 w-4" />
+                    <span>Home</span>
+                  </Link>
+                </SidebarMenuButton>
 
-              {/* Common Profile Section */}
+              
               
             </SidebarMenu>
           </SidebarContent>
