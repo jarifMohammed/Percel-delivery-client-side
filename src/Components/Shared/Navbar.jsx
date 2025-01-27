@@ -35,7 +35,7 @@ const Navbar = () => {
     return (
         <nav 
         ref={navRef}
-        className="fixed rounded-md backdrop-blur mt-5 max-w-screen-2xl mx-auto top-0 left-0 right-0 bg-slate-600 border-b border-gray-200 dark:bg-gray-900 bg-opacity-30 z-50 shadow-sm"
+        className="fixed rounded-md backdrop-blur mt-5 max-w-screen-2xl mx-auto top-0 left-0 right-0 bg-orange-100 border-b border-gray-200 dark:bg-gray-900 bg-opacity-30 z-50 shadow-sm"
         >
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
@@ -53,19 +53,19 @@ const Navbar = () => {
                 <div className="flex space-x-4">
                     <Link
                     to="/"
-                    className="text-white hover:text-red-300 dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    className="text-orange-500 hover:text-red-300 dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                     >
                     Home
                     </Link>
                     <Link
                     to="/about"
-                    className="text-white  hover:text-red-300 dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    className="text-orange-500  hover:text-red-300 dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                     >
                     About
                     </Link>
                     <Link
                     to="/work"
-                    className="text-white  hover:text-red-300 dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    className="text-orange-500  hover:text-red-300 dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                     >
                     How We Work
                     </Link>
@@ -76,7 +76,7 @@ const Navbar = () => {
             {/* Right side - User menu and mobile button */}
             <div className="flex items-center">
                 {/* Notification icon */}
-                <button className="p-2 rounded-full text-white hover:text-orange-400 dark:text-gray-300 dark:hover:text-white mr-4">
+                <button className="p-2 rounded-full text-orange-500 hover:text-orange-400 dark:text-gray-300 dark:hover:text-white mr-4">
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                 </svg>
@@ -173,8 +173,8 @@ const Navbar = () => {
             <Link to='/about' className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700">
                 About
             </Link>
-            <Link to='/services' className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700">
-                Services
+            <Link to='/work' className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-blue-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-700">
+                How We Work
             </Link>
             </div>
         </div>
