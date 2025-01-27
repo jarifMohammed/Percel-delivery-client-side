@@ -35,7 +35,7 @@ const Navbar = () => {
     return (
         <nav 
         ref={navRef}
-        className="fixed backdrop-blur mt-5 max-w-screen-2xl mx-auto top-0 left-0 right-0 bg-white border-b border-gray-200 dark:bg-gray-900 bg-opacity-30 z-50 shadow-sm"
+        className="fixed rounded-md backdrop-blur mt-5 max-w-screen-2xl mx-auto top-0 left-0 right-0 bg-slate-600 border-b border-gray-200 dark:bg-gray-900 bg-opacity-30 z-50 shadow-sm"
         >
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16">
@@ -46,7 +46,7 @@ const Navbar = () => {
                <div className="flex-shrink-0 ">
                 <iframe className='w-16 h-16' src="https://lottie.host/embed/8cb93b74-3c4b-44bb-a584-8284c47b78f0/RzKrFvKy4K.lottie"></iframe>
                 </div>
-               <p className='text-2xl mt-4 font-bold text-white'>Quick Drop</p>
+               <p className='text-2xl mt-4 font-bold '>Quick Drop</p>
                 
                </div>
                 <div className="hidden md:block ml-10">
@@ -67,7 +67,7 @@ const Navbar = () => {
                     to="/services"
                     className="text-white  hover:text-red-300 dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                     >
-                    Services
+                    How We Work
                     </Link>
                 </div>
                 </div>
@@ -114,12 +114,7 @@ const Navbar = () => {
                         >
                         Dashboard
                         </Link>
-                        <Link
-                        to="/settings"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
-                        >
-                        Settings
-                        </Link>
+                        
                         {
                             user ? <>
                             <Link
