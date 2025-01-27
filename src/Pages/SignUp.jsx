@@ -28,7 +28,7 @@ export default function SignUp() {
     createuser(data.email,data.password)
     .then(res => {
         const loggeduser = res.user
-        console.log(loggeduser);
+        // console.log(loggeduser);
         updateUserProfile(fullName , data.photoURL)
         .then(() => {
             // create user info
@@ -45,7 +45,7 @@ export default function SignUp() {
         navigate('/')
     })
 
-    console.log(data);
+    // console.log(data);
     // Handle form submission here
   };
 

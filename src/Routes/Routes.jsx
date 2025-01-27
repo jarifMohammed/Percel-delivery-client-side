@@ -86,7 +86,7 @@ import About from "@/Pages/About";
      {
       path:'/dashboard/update/:id',
       element:<UserRoutes><UpdateParcel></UpdateParcel></UserRoutes>,
-      loader:({params}) => fetch(`http://localhost:3000/parcels/update/${params.id}`)
+      loader:({params}) => fetch(`https://quick-drop-server-opal.vercel.app/parcels/update/${params.id}`)
 
       
      },

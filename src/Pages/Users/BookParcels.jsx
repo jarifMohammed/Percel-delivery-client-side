@@ -17,7 +17,7 @@ const BookParcels = () => {
         queryKey:['user', user?.email],
         queryFn:async()=> {
             const res = await axios.get(`/users/${user?.email}`)
-            console.log(res.data);
+            // console.log(res.data);
             return res.data
             
         },
@@ -67,7 +67,7 @@ axios.post('/parcels',parcelInfo)
     
 
     alert("Parcel booked successfully!");
-    console.log(data);
+    // console.log(data);
   };
 
   // Auto-calculate fee when weight is updated

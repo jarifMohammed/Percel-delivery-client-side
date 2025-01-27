@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 
 // Create basic axios instance without interceptors
 const axiosUrl = axios.create({
-    baseURL: 'http://localhost:3000'
+    baseURL: 'https://quick-drop-server-opal.vercel.app'
 })
 
 

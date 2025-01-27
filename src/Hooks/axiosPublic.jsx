@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 const publicAxios = axios.create({
-    baseURL:'http://localhost:3000'
+    baseURL:'https://quick-drop-server-opal.vercel.app'
 })
 
 const axiosPublic = () => {

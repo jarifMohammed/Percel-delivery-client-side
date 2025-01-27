@@ -109,7 +109,7 @@ const MyParcels = () => {
                                         {parcel.status === 'pending' && (
                                             <button
                                                 className="px-3 py-1.5 rounded-md text-sm bg-green-100 text-green-800 hover:bg-green-200"
-                                                onClick={() => console.log('Pay', parcel._id)}
+                                                // onClick={() => console.log('Pay', parcel._id)}
                                             >
                                                 Pay
                                             </button>

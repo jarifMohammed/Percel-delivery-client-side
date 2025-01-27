@@ -8,7 +8,7 @@ import { useLoaderData } from "react-router-dom";
 
 const UpdateParcel = () => {
   const {_id,senderName,senderEmail,senderPhone,parcelType,parcelWeight,receiverName,receiverPhone,deliveryAddress,longitude,latitude,promisedDate} = useLoaderData()
-  console.log(promisedDate);
+  // console.log(promisedDate);
    
     const axios = axiosPublic();
     const [deliveryFee, setDeliveryFee] = useState(0);
@@ -60,7 +60,7 @@ const UpdateParcel = () => {
         // Change to PUT/PATCH request for update
       const res =  axios.patch(`/parcels/${_id}`, parcelInfo)
       .then(() => alert("Parcel updated successfully!"))
-        console.log(res.data);
+        // console.log(res.data);
             
             
     };
