@@ -25,12 +25,14 @@ import UserRoutes from "./UserRoutes";
 import DeliveryManRoute from "./DeliveryManRoute";
 import HowWeWork from "@/Pages/HowWeWork";
 import About from "@/Pages/About";
+import ErrorPage from "@/Pages/ErrorPage";
 
 
   export const router = createBrowserRouter([
     {
       path: "/",
       element: <Main></Main>,
+      errorElement: <ErrorPage />,
       children:[
         {
             path:'/',
@@ -48,15 +50,18 @@ import About from "@/Pages/About";
     },
     {
         path:'login',
-        element:<Login></Login>
+        element:<Login></Login>,
+        errorElement: <ErrorPage />
     },
     {
         path:'signup',
-        element:<SignUp></SignUp>
+        element:<SignUp></SignUp>,
+        errorElement: <ErrorPage />
     },
     {
       path: "/dashboard",
       element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
+      errorElement: <ErrorPage />,
       children:[
         {
            path:'/dashboard/all-users',

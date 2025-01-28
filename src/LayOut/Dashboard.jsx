@@ -4,6 +4,7 @@ import { SidebarProvider,  Sidebar, SidebarTrigger, SidebarContent, SidebarMenu,
 import { PanelLeft, Box, Truck, Package, Users, Star, User, Home } from 'lucide-react';
 import useAdmin from '@/Hooks/useAdmin';
 import Navbar from '@/Components/Shared/Navbar';
+import Sales from '@/Components/Shared/Sales';
 
 const Dashboard = () => {
   const location = useLocation();
@@ -160,11 +161,14 @@ const [role] =useAdmin()
         </Sidebar>
 
         {/* Main Content Area */}
-        <main className="flex-1 p-8">
+        <main className="flex-1  p-8">
           {/* Mobile Sidebar Trigger */}
           <div className="md:hidden mb-4">
             <SidebarTrigger />
           </div>
+         <div className='flex justify-center'>
+         {role === 'admin' && <Sales />}
+         </div>
 
           {/* Nested Route Content */}
           <Outlet />

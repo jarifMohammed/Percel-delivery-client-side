@@ -16,7 +16,7 @@ const Home = () => {
     <div className="p-4">
      
     <Hero></Hero>
-   <div className=" mb-10 ml-[400px] mx-auto  text-center">
+   <div className=" mb-10 lg:ml-[400px] mx-auto  text-center">
    <Stats></Stats>
    </div>
   <div  className="p-5 " >
