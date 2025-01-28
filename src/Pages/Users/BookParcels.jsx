@@ -6,10 +6,12 @@ import { AuthContext } from "@/Providers/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 
 
 const BookParcels = () => {
+  const navigate =useNavigate()
     
     const {user} = useContext(AuthContext)
     const axios = axiosPublic()
@@ -67,6 +69,7 @@ axios.post('/parcels',parcelInfo)
     
 
     alert("Parcel booked successfully!");
+    navigate('/dashboard/my-parcels')
     // console.log(data);
   };
 

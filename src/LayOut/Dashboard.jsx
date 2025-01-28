@@ -5,6 +5,7 @@ import { PanelLeft, Box, Truck, Package, Users, Star, User, Home } from 'lucide-
 import useAdmin from '@/Hooks/useAdmin';
 import Navbar from '@/Components/Shared/Navbar';
 import Sales from '@/Components/Shared/Sales';
+import Chart from '@/Components/Shared/Chart';
 
 const Dashboard = () => {
   const location = useLocation();
@@ -168,6 +169,9 @@ const [role] =useAdmin()
           </div>
          <div className='flex justify-center'>
          {role === 'admin' && <Sales />}
+         </div>
+         <div className=''>
+         {role === 'admin' && <Chart />}
          </div>
 
           {/* Nested Route Content */}
