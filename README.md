@@ -44,7 +44,7 @@
 ### Other Tools & Libraries:
 - **Axios** - For API requests
 - **Firebase Hosting** - For deployment
-- **Cloudinary** - For image uploads
+- **ImageBB** - For image uploads
 - **Mongoose** - For MongoDB interactions
 
 ## Installation & Setup
@@ -86,7 +86,7 @@ Follow these steps to set up QuickDrop locally:
 
 ## Deployment
 - **Frontend:** Deployed on Firebase
-- **Backend:** Deployed on a cloud-based server (e.g., Vercel, Render, or Heroku)
+- **Backend:** Deployed on a cloud-based server vercel
 
 ## Contributing
 If you'd like to contribute:
@@ -95,8 +95,7 @@ If you'd like to contribute:
 3. Make your changes and commit.
 4. Submit a pull request.
 
-## License
-This project is open-source and available under the MIT License.
+
 
 ---
 **Developed by Mohammed Jarif**
