@@ -11,7 +11,7 @@ const Sales = () => {
     queryKey: ["parcels"],
     queryFn: async () => {
       const res = await axios.get("/parcels");
-      console.log(res.data); // Log the response
+      // console.log(res.data); // Log the response
       return Array.isArray(res.data) ? res.data : []; // Ensure it's an array
     },
   });

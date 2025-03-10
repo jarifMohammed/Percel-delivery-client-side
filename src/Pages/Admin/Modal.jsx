@@ -16,12 +16,13 @@ const Modal = ({ parcel, closeModal,refetch}) => {
     queryKey: ["users"],
     queryFn: async () => {
       const res = await axios.get("/users");
-      return res.data.filter(user => user.role === "deliveryman");
+      return res.data?.filter(user => user?.role === "deliveryman");
     },
   });
+  // console.log("Users Data:", users);
 
   const filteredUsers = users.filter(user =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase())
+    user?.name?.toLowerCase().includes(searchTerm.toLowerCase())
 
 
   );
