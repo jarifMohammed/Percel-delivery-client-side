@@ -5,15 +5,16 @@ import { useState } from "react";
 import Modal from "./Modal";
 
 const AllParcels = () => {
-  const [selectedParcel, setSelectedParcel] = useState(null); // State for selected parcel
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+  const [selectedParcel, setSelectedParcel] = useState(null); 
+  const [isModalOpen, setIsModalOpen] = useState(false); 
+  const [currentPage, setCurrentPage] = useState(1); 
+  const [itemsPerPage] = useState(10); 
   const axios = axiosPublic();
 
-  const { data: parcels = [],refetch} = useQuery({
+  const { data: parcels = [], refetch } = useQuery({
     queryKey: ["parcels"],
     queryFn: async () => {
       const res = await axios.get("/parcels");
-      // console.log(res.data);
       return res.data;
     },
   });
@@ -28,86 +29,103 @@ const AllParcels = () => {
     setIsModalOpen(false);
   };
 
+  // Calculate the current items to display
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = parcels.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {parcels.map((parcel) => (
-          <div
-            key={parcel._id}
-            className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-shadow"
-          >
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-800">
-                    {parcel.parcelType}
-                  </h3>
-                  <p className="text-sm text-gray-500">
-                    Weight: {parcel.parcelWeight} kg
-                  </p>
-                </div>
-                <span
-                  className={`px-3 py-1 rounded-full text-sm font-medium ${
-                    parcel.status === "pending"
-                      ? "bg-yellow-100 text-yellow-800"
-                      : "bg-green-100 text-green-800"
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white">
+          <thead>
+            <tr>
+              <th className="py-2 px-4 border-b">Parcel Type</th>
+              <th className="py-2 px-4 border-b">Weight (kg)</th>
+              <th className="py-2 px-4 border-b">Status</th>
+              <th className="py-2 px-4 border-b">Sender</th>
+              <th className="py-2 px-4 border-b">Receiver</th>
+              <th className="py-2 px-4 border-b">Order Date</th>
+              <th className="py-2 px-4 border-b">Requested Date</th>
+              <th className="py-2 px-4 border-b">Delivery Fee</th>
+              <th className="py-2 px-4 border-b">Delivery Address</th>
+              <th className="py-2 px-4 border-b">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentItems.map((parcel) => (
+              <tr key={parcel._id} className="hover:bg-gray-100">
+                <td className="py-2 px-4 border-b">{parcel.parcelType}</td>
+                <td className="py-2 px-4 border-b">{parcel.parcelWeight}</td>
+                <td className="py-2 px-4 border-b">
+                  <span
+                    className={`px-3 py-1 rounded-full text-sm font-medium ${
+                      parcel.status === "pending"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "bg-green-100 text-green-800"
+                    }`}
+                  >
+                    {parcel.status}
+                  </span>
+                </td>
+                <td className="py-2 px-4 border-b">{parcel.senderName}</td>
+                <td className="py-2 px-4 border-b">{parcel.receiverName}</td>
+                <td className="py-2 px-4 border-b">
+                  {format(new Date(parcel.orderedDate), "dd MMM yyyy")}
+                </td>
+                <td className="py-2 px-4 border-b">
+                  {format(new Date(parcel.promisedDate), "dd MMM yyyy")}
+                </td>
+                <td className="py-2 px-4 border-b">৳{parcel.deliveryFee}</td>
+                <td className="py-2 px-4 border-b">{parcel.deliveryAddress}</td>
+                <td className="py-2 px-4 border-b">
+                  <button
+                    disabled={
+                      parcel.status === "Delivered" ||
+                      parcel.status === "Cancelled" ||
+                      parcel.status === "On The Way"
+                    }
+                    onClick={() => openModal(parcel)}
+                    className={`py-1 px-3 rounded-md transition-colors ${
+                      parcel.status === "Delivered" ||
+                      parcel.status === "Cancelled" ||
+                      parcel.status === "On the Way"
+                        ? "bg-gray-400 text-gray-700 cursor-not-allowed"
+                        : "bg-blue-600 text-white hover:bg-blue-700"
+                    }`}
+                  >
+                    Manage
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="flex justify-center mt-4">
+        <nav>
+          <ul className="inline-flex items-center -space-x-px">
+            {Array.from({ length: Math.ceil(parcels.length / itemsPerPage) }, (_, index) => (
+              <li key={index}>
+                <button
+                  onClick={() => paginate(index + 1)}
+                  className={`py-2 px-3 leading-tight ${
+                    currentPage === index + 1
+                      ? "bg-blue-600 text-white"
+                      : "bg-white border border-gray-300 text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                   }`}
                 >
-                  {parcel.status}
-                </span>
-              </div>
-
-              <div className="space-y-2 border-t border-b py-4">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Sender:</span>
-                  <span className="text-gray-900">{parcel.senderName}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Receiver:</span>
-                  <span className="text-gray-900">{parcel.receiverName}</span>
-                </div>
-              </div>
-
-              <div className="mt-4 space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Order Date:</span>
-                  <span className="text-gray-900">
-                    {format(new Date(parcel.orderedDate), "dd MMM yyyy")}
-                  </span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Requested Date:</span>
-                  <span className="text-gray-900">
-                    {format(new Date(parcel.promisedDate), "dd MMM yyyy")}
-                  </span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">Delivery Fee:</span>
-                  <span className="text-gray-900">৳{parcel.deliveryFee}</span>
-                </div>
-              </div>
-
-              <div className="mt-4 pt-4 border-t">
-                <p className="text-sm text-gray-600 mb-1">Delivery Address:</p>
-                <p className="text-sm text-gray-900 font-medium">
-                  {parcel.deliveryAddress}
-                </p>
-              </div>
-
-              <button
-  disabled={parcel.status === "Delivered" || parcel.status === "Cancelled" || parcel.status === "On The Way"}
-  onClick={() => openModal(parcel)}
-  className={`mt-4 w-full py-2 px-4 rounded-md transition-colors ${
-    parcel.status === "Delivered" || parcel.status === "Cancelled" || parcel.status === "On the Way"
-      ? "bg-gray-400 text-gray-700 cursor-not-allowed"
-      : "bg-blue-600 text-white hover:bg-blue-700"
-  }`}
->
-  Manage
-</button>
-            </div>
-          </div>
-        ))}
+                  {index + 1}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </div>
 
       {/* Modal Component */}

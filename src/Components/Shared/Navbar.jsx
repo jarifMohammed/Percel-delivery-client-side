@@ -63,12 +63,7 @@ const Navbar = () => {
                     >
                     About
                     </Link>
-                    <Link
-                    to="/work"
-                    className="text-orange-500  hover:text-red-300 dark:text-gray-300 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                    >
-                    How We Work
-                    </Link>
+                    
                 </div>
                 </div>
             </div>

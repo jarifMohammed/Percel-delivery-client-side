@@ -135,7 +135,7 @@ axios.post('/parcels',parcelInfo)
                   <input
                     id="phone"
                     type="number"
-                    {...register("phone", { required: "Phone number is required" })}
+                    {...register("phone", )}
                     className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                     readOnly
                   />
